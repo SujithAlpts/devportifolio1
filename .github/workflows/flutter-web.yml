@@ -6,7 +6,7 @@ on:
       - main  # change if your default branch is different
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +19,13 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Set base href for GitHub Pages
+        run: |
+          # Replace <repo-name> with your repo name
+          REPO_NAME="portifolio"
+          # Replace placeholder in index.html
+          sed -i "s|\$FLUTTER_BASE_HREF|/$REPO_NAME/|g" web/index.html
 
       - name: Build Flutter Web
         run: flutter build web --release
