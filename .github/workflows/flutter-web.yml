@@ -10,21 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+        uses: flutter-actions/setup-flutter@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: 'stable'  # You can replace with a specific version if needed
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Set base href for GitHub Pages
         run: |
-          # Replace <repo-name> with your repo name
-          REPO_NAME="portifolio"
-          # Replace placeholder in index.html
+          REPO_NAME="portifolio"  # replace with your repo name
           sed -i "s|\$FLUTTER_BASE_HREF|/$REPO_NAME/|g" web/index.html
 
       - name: Build Flutter Web
