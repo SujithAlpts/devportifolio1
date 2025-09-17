@@ -3,7 +3,7 @@ name: Flutter Web Build & Deploy
 on:
   push:
     branches:
-      - main  # change if your default branch is different
+      - main  # Change if your default branch is different
 
 jobs:
   build-deploy:
@@ -16,14 +16,14 @@ jobs:
       - name: Setup Flutter
         uses: flutter-actions/setup-flutter@v2
         with:
-          flutter-version: 'stable'  # You can replace with a specific version if needed
+          flutter-version: 'stable'  # or a specific version like '3.10.6'
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Set base href for GitHub Pages
         run: |
-          REPO_NAME="portifolio"  # replace with your repo name
+          REPO_NAME="devportifolio1"  # replace with your repo name
           sed -i "s|\$FLUTTER_BASE_HREF|/$REPO_NAME/|g" web/index.html
 
       - name: Build Flutter Web
@@ -37,3 +37,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
+          force_orphan: true
