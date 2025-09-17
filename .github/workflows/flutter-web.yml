@@ -1,36 +1,33 @@
-name: Deploy Flutter Web to GitHub Pages
+name: Flutter Web Build & Deploy
 
 on:
   push:
     branches:
-      - main
-
-permissions:
-  contents: write   # ✅ allow pushing to gh-pages
+      - main  # change if your default branch is different
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          flutter-version: 'stable'
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build web
+      - name: Build Flutter Web
         run: flutter build web --release
+
+      - name: Copy index.html to 404.html
+        run: cp build/web/index.html build/web/404.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
-          user_name: github-actions[bot]      # ✅ fixes git identity
-          user_email: github-actions[bot]@users.noreply.github.com
