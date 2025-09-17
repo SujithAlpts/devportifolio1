@@ -3,7 +3,10 @@ name: Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches:
-      - main  # deploy whenever you push to main
+      - main
+
+permissions:
+  contents: write   # ✅ allow pushing to gh-pages
 
 jobs:
   build:
@@ -22,10 +25,12 @@ jobs:
         run: flutter pub get
 
       - name: Build web
-        run: flutter build web --release --base-href /devportifolio1/
+        run: flutter build web --release
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
+          user_name: github-actions[bot]      # ✅ fixes git identity
+          user_email: github-actions[bot]@users.noreply.github.com
